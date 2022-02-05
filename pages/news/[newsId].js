@@ -1,5 +1,9 @@
+import { useRouter } from "next/router";
+
 const DetailsPage = () => {
-  return <h1>Details page</h1>;
+  const router = useRouter();
+
+  return <h1>Details {router.query.newsId} page</h1>;
 };
 
 export default DetailsPage;
