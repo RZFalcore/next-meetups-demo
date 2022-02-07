@@ -22,6 +22,15 @@ const HomePage = ({ meetups }) => {
   return <MeetupList meetups={meetups} />;
 };
 
+// export async function getServerSideProps(context) {
+//   const req = context.req;
+//   const res = context.res;
+
+//   // Fetch data
+
+//   return { props: { meetups: DUMMY_MEETUPS } };
+// }
+
 export async function getStaticProps() {
   // Fetch data
   return { props: { meetups: DUMMY_MEETUPS }, revalidate: 60 };
