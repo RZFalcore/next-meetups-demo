@@ -1,10 +1,10 @@
 import { MongoClient } from "mongodb";
 
-const handler = (req, res) => {
+const handler = async (req, res) => {
   if (req.method !== "POST") return;
 
   const data = req.body;
-  console.log("Data: ", title, image, address, description);
+  console.log("Data: ", data);
 
   const uri =
     "mongodb+srv://rzfalcore:a7hA4GtutCPtmhR@cluster0.tqc39.mongodb.net/meetups?retryWrites=true&w=majority";
@@ -18,7 +18,9 @@ const handler = (req, res) => {
 
     const result = await meetupsCollection.insertOne(data);
     console.log(result);
+
     client.close();
+
     res.status(201).json({ message: "Meetup added!" });
   } catch (error) {
     console.log(error.message);
