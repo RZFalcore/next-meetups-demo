@@ -6,8 +6,7 @@ const handler = async (req, res) => {
   const data = req.body;
   console.log("Data: ", data);
 
-  const uri =
-    "mongodb+srv://rzfalcore:a7hA4GtutCPtmhR@cluster0.tqc39.mongodb.net/meetups?retryWrites=true&w=majority";
+  const uri = `mongodb+srv://${process.env.NAME}:${process.env.DB_PASS}@cluster0.tqc39.mongodb.net/meetups?retryWrites=true&w=majority`;
 
   try {
     const client = await MongoClient.connect(uri);
