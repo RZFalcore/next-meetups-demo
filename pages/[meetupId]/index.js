@@ -1,12 +1,27 @@
+import { MongoClient, ObjectId } from "mongodb";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
 
-const MeetupDetails = (props) => {
-  return <MeetupDetail {...props} />;
+const MeetupDetails = ({ meetupData }) => {
+  return <MeetupDetail {...meetupData} />;
 };
 
 export async function getStaticPaths() {
+  const uri =
+    "mongodb+srv://rzfalcore:a7hA4GtutCPtmhR@cluster0.tqc39.mongodb.net/meetups?retryWrites=true&w=majority";
+
+  const client = await MongoClient.connect(uri);
+
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const meetups = await meetupsCollection.find({}, { _id: "1" }).toArray();
+
+  client.close();
   return {
-    paths: [{ params: { meetupId: "1" } }, { params: { meetupId: "2" } }],
+    paths: meetups.map((meetup) => ({
+      params: { meetupId: meetup._id.toString() },
+    })),
     fallback: false,
   };
 }
@@ -14,14 +29,30 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   const meetupId = context.params.meetupId;
 
+  const uri =
+    "mongodb+srv://rzfalcore:a7hA4GtutCPtmhR@cluster0.tqc39.mongodb.net/meetups?retryWrites=true&w=majority";
+
+  const client = await MongoClient.connect(uri);
+
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const selectedMeetup = await meetupsCollection.findOne({
+    _id: ObjectId(meetupId),
+  });
+
+  client.close();
+
   return {
     props: {
-      id: meetupId,
-      image:
-        "http://cdn.cnn.com/cnnnext/dam/assets/170123102557-beautiful-india-valley-of-flowers-flickr-alosh-bennett-4951216953.jpg",
-      title: "Team place",
-      address: "India, Some mountains :)",
-      description: "Our new place!",
+      meetupData: {
+        id: selectedMeetup._id.toString(),
+        title: selectedMeetup.title,
+        image: selectedMeetup.image,
+        address: selectedMeetup.address,
+        description: selectedMeetup.description,
+      },
     },
   };
 }
