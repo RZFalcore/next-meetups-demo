@@ -1,20 +1,19 @@
 import { MongoClient } from "mongodb";
+import Head from "next/head";
 import MeetupList from "../components/meetups/MeetupList";
 
 const HomePage = ({ meetups }) => {
-  return <MeetupList meetups={meetups} />;
+  return (<>
+    <Head>
+      <title>Meetups App</title>
+      <meta name="description" content="Try new meetups app based on React JS!"/>
+    </Head>
+   <MeetupList meetups={meetups} />
+  </>)
 };
 
-// export async function getServerSideProps(context) {
-//   const req = context.req;
-//   const res = context.res;
-//   // Fetch data
-//   return { props: { meetups: DUMMY_MEETUPS } };
-// }
 
 export async function getStaticProps() {
-  // Fetch data
-
   const uri =
     "mongodb+srv://rzfalcore:a7hA4GtutCPtmhR@cluster0.tqc39.mongodb.net/meetups?retryWrites=true&w=majority";
 
@@ -35,5 +34,13 @@ export async function getStaticProps() {
     revalidate: 60,
   };
 }
+
+// export async function getServerSideProps(context) {
+//   const req = context.req;
+//   const res = context.res;
+//   // Fetch data
+//   return { props: { meetups: DUMMY_MEETUPS } };
+// }
+
 
 export default HomePage;
