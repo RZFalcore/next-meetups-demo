@@ -13,9 +13,9 @@ const MeetupItem = ({ id, image, title, address }) => {
   return (
     <li className={styles.item}>
       <Card>
-        <div className={styles.image}>
-          <Image src={image} alt={title} />
-        </div>
+        {/* <div className={styles.image}> */}
+        <Image src={image} alt={title} />
+        {/* </div> */}
         <div className={styles.content}>
           <h3>{title}</h3>
           <address>{address}</address>
